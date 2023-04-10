@@ -21,7 +21,7 @@
 
             if(session('loggedIn')){
                 echo '<li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/login">Logout</a>
+                <a class="nav-link active" aria-current="page" href="/logout">Logout</a>
               </li>';
             }else{
                 echo '<li class="nav-item">
@@ -37,5 +37,3 @@
     </div>
   </div>
 </nav>
-</body>
-</html>

@@ -19,9 +19,9 @@
             }
             
             $this->session->set('loggedIn',false);
-
+            $data['error'] = '';
             return view('templates/navbar')
-                . view('pages/'.$page);
+                . view('pages/'.$page,$data);
         }   
 
         public function signup(){
@@ -32,9 +32,10 @@
             // The form is not submitted, so returns the form.
 
             $this->session->set('loggedIn',false);
+            $data['error'] = '';
 
             return view('templates/navbar')
-                . view('pages/Signup');
+                . view('pages/Signup',$data);
             }
 
             $post = $this->request->getPost(['username','email','password','confirm_password']);
@@ -52,9 +53,13 @@
 
                 $this->session->set('loggedIn',false);
 
+                $validation = \Config\Services::validation();
+                $data['error'] = $validation->listErrors();
+
+
                 // The validation fails, so returns the form.
                 return view('templates/navbar')
-                    . view('pages/signup');
+                    . view('pages/signup',$data);
             }
 
             else{
@@ -66,17 +71,25 @@
 
                 $model = new userModel();
 
-                $model->save([
+                $returnVal = $model->save([
                     'username'  =>$post['username'],
                     'email' => $post['email'],
                     'password'  =>$password,
                 ]);
 
+
                 // $data['username'] = $post['username'];
                 // $data['loggedIn'] = true;
 
-                $this->session->set('username',$post['username']);
-                $this->session->set('loggedIn',true);
+                if($returnVal){
+                    $this->session->set('username',$post['username']);
+                    $this->session->set('loggedIn',true);
+                }else{
+
+                    $data['error'] = 'Problem in saving your data to the database';
+                    return view('templates/navbar')
+                    .view('pages/signup',$data);
+                }
 
                 return view('templates/navbar')
                     .view('pages/home');
@@ -98,7 +111,7 @@
 
 
             return view('templates/navbar')
-                . view('pages/Signup');
+                . view('pages/Login');
             }
 
             $post = $this->request->getPost(['email','password']);
@@ -155,7 +168,8 @@
         }
 
         public function logout(){
-            print_r("logout has been clicked");
+            $this->session->destroy();
+            return redirect()->to('/login');
         }
 
     }

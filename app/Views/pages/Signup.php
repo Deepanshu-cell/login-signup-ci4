@@ -1,21 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <title>Document</title>
-</head>
-<body>
+
     <div class="text-center container-sm">
     <h1 id="signup-heading" class="mb-5">Please Signup..</h1>
 
     
     <?= session()->getFlashdata('error') ?>
-    <h5 class="text-danger"><?php echo \Config\Services::validation()->listErrors() ?></h5>
+    <h5 class="text-danger"><?= $error ?></h5>
 
-    <form action="/Pages/signup" method="post">
+    <form  id="signup-form">
 
     <?= csrf_field() ?>
 
@@ -45,4 +36,15 @@
     </div>
 
 </body>
+
+<script src="app\Views\pages\jquery.js"></script>
+<script type="text/javascript"> 
+    $('document').ready(()=>{
+        $('#signup-form').on('submit',(e)=>{
+          e.preventDefault();
+
+          console.log('form submitted');
+        })
+    })
+</script>
 </html>

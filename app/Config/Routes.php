@@ -34,6 +34,7 @@ use App\Controllers\Pages;
 
 $routes->match(['get', 'post'], 'Pages/signup', [Pages::class, 'signup']);
 $routes->match(['get', 'post'], 'Pages/login', [Pages::class, 'login']);
+$routes->match(['get', 'post'], '/logout', [Pages::class, 'logout']);
 $routes->get('/', 'Home::index');
 $routes->get('(:segment)', [Pages::class, 'index']);
 /*
